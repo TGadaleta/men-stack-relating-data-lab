@@ -5,6 +5,8 @@ const router = express.Router();
 
 import User from '../models/user.js';
 
-// router logic will go here - will be built later on in the lab
+router.get('/', (req, res) => {
+    res.render('foods/index.ejs')
+  });  
 
 export default router;

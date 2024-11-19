@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 
 import authController from './controllers/auth.js';
-import foodController from './controllers/food.js';
+import foodsController from './controllers/foods.js';
 import isSignedIn from './middleware/is-signed-in.js';
 import passUserToView from './middleware/pass-user-to-view.js';
 
