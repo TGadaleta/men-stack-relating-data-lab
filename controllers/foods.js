@@ -5,10 +5,19 @@ const router = express.Router();
 
 import User from "../models/user.js";
 
-router.get("/", (req, res) => {
-  res.render("foods/index.ejs");
+//index route for user pantry
+router.get("/", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.session.user._id);
+    const fullPantry = currentUser.pantry;
+    res.render("foods/index.ejs",{ pantry: fullPantry});
+  } catch (error) {
+    console.error(error)
+    res.status(418).send('There was an error getting your pantry')
+  }
 });
 
+//new 
 router.get("/new", (req, res) => {
   res.render("foods/new.ejs");
 });

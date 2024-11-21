@@ -8,6 +8,13 @@
   <body>
     <%- include('../partials/_navbar') %>
     <h1>Welcome to my Pantry</h1>
+    <ul>
+      <% pantry.forEach((item) => { %>
+        <li>
+          <a href="/users/:userID/foods/<%=item._id %>"><%= item.food %></a>
+        </li>
+      <% }); %>
+    </ul>
     <a href="/users/<%=user._id%>/foods/new">Add New Item</a>
   </body>
 </html>
