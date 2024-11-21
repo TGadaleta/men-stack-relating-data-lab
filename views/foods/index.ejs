@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Pantry</title>
-  </head>
-  <body>
-    <%- include('../partials/_navbar') %>
-    <h1>Welcome to my Pantry</h1>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Pantry</title>
+</head>
+
+<body>
+  <%- include('../partials/_navbar') %>
+  <h1>Welcome to my Pantry</h1>
+  
+  <% if (pantry.length === 0) { %>
+    <p>There are no items in your pantry</p>
+  <% } else { %>
     <ul>
       <% pantry.forEach((item) => { %>
         <li>
-          <a href="/users/:userID/foods/<%=item._id %>"><%= item.food %></a>
+          <a href="/users/<%= user._id %>/foods/<%= item._id %>"><%= item.food %></a>
+          <form action="/users/<%= user._id %>/foods/<%= item._id %>?_method=DELETE" method="POST">
+            <button type="submit">Delete</button>
+          </form>
         </li>
       <% }); %>
     </ul>
-    <a href="/users/<%=user._id%>/foods/new">Add New Item</a>
-  </body>
+  <% } %>
+
+  <a href="/users/<%= user._id %>/foods/new">Add New Item</a>
+</body>
+
 </html>
