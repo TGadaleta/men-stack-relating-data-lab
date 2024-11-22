@@ -48,7 +48,7 @@ app.get('/vip-lounge', (req, res) => {
 });
 app.use(passUserToView)
 app.use('/auth', authController);
-app.use(isSignedIn)
+//app.use(isSignedIn)
 app.use('/users/:userId/foods',foodsController);
 
 app.listen(port, () => {

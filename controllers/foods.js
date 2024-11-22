@@ -26,6 +26,14 @@ router.get("/new", (req, res) => {
   res.render("foods/new.ejs");
 });
 
+router.get('/:itemId/edit', async (req, res) => {
+  const userId = req.session.user._id
+  const {itemId} = req.params
+  const currentUser = await User.findById(userId)
+  const pantryItem = currentUser.pantry.find(item => item._id.toString() === itemId);
+  res.render('foods/edit.ejs', {userId: userId, pantryItem: pantryItem.food, itemId: itemId})
+})
+
 //POST
 router.post(('/'), async (req, res) => {
   try {
@@ -39,6 +47,41 @@ router.post(('/'), async (req, res) => {
     res.status(418).send('There was an error adding a new food.')
   }
 })
+
+router.put('/:itemId', async (req, res) => { //ChatGPT
+  try {
+    const userId = req.session?.user?._id;
+    if (!userId) {
+      return res.status(401).send('Unauthorized: User not logged in');
+    }
+
+    const { itemId } = req.params;
+    const updatedItem = req.body;
+
+    const currentUser = await User.findById(userId);
+    if (!currentUser) {
+      return res.status(404).send('User not found');
+    }
+
+    // Find the index of the pantry item
+    const itemIndex = currentUser.pantry.findIndex(item => item._id.toString() === itemId);
+    if (itemIndex === -1) {
+      return res.status(404).send('Pantry item not found');
+    }
+
+    // Update the item's properties
+    currentUser.pantry[itemIndex] = updatedItem;
+
+    // Save the updated user
+    await currentUser.save();
+
+    // Redirect to the user's foods page
+    res.redirect(`/users/${userId}/foods`);
+  } catch (error) {
+    console.error('Error updating pantry item:', error);
+    res.status(500).send('Internal server error');
+  }
+});
 
 //DELETE
 router.delete(('/:itemId'), async (req, res) => {

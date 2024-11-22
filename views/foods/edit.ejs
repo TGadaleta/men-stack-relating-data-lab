@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Food Item</title>
+</head>
+
+<body>
+  <h1>Edit Food Item</h1>
+
+  <!-- Form for editing a food item -->
+  <form action="/users/<%= userId %>/foods/<%= itemId %>?_method=PUT" method="POST">
+    <label for="food">Food Name:</label>
+    <input type="text" id="food" name="food" value="<%= pantryItem %>" required>
+
+    <button type="submit">Update Food Item</button>
+  </form>
+
+  <a href="/users/<%= userId %>/pantry">Back to Pantry</a>
+</body>
+
+</html>
